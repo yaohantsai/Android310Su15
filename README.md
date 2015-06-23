@@ -1,7 +1,7 @@
 # Android310Su15
 This repository contains the code that will be presented in Android 310 (Summer 2015). 
 
-## SETUP
+## Setup
 Note: These instructions assume you have a Java 1.7+ JDK installed.
 
 To import this project into Android Studio:
