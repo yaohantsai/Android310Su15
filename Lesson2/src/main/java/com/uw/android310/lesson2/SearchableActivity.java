@@ -3,11 +3,13 @@ package com.uw.android310.lesson2;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.uw.android310.core.StringUtil;
 
 
 public class SearchableActivity extends AppCompatActivity {
@@ -27,8 +29,12 @@ public class SearchableActivity extends AppCompatActivity {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String unSanitizedQuery = intent.getStringExtra(SearchManager.QUERY);
 
+            if (StringUtil.isNullOrEmpty(unSanitizedQuery)) {
+                handleEmptySearchQuery();
+            }
+
             // Sanitize the search query
-            String sanitizedQuery = sanitizeQueryString(unSanitizedQuery);
+            String sanitizedQuery = StringUtil.Search.sanitizeQueryString(unSanitizedQuery);
 
             // Show the query on the device
             mSearchQueryTextView.setText(sanitizedQuery);
@@ -60,14 +66,7 @@ public class SearchableActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Sanitize a search query string by filtering inappropriate queries.
-     *
-     * @param unSanitizedQueryString
-     * @return sanitized query string that is safe to search for.
-     */
-    private String sanitizeQueryString(@NonNull String unSanitizedQueryString) {
-        // TODO: Implement String sanitize and filter curse words, inappropriate search results, etc.
-        return unSanitizedQueryString;
+    private void handleEmptySearchQuery() {
+        Toast.makeText(this, "Please provide a non-null, non-empty search query.", Toast.LENGTH_SHORT).show();
     }
 }
