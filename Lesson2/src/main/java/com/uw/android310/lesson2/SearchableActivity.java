@@ -25,16 +25,19 @@ public class SearchableActivity extends AppCompatActivity {
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String unSanitizedQuery = intent.getStringExtra(SearchManager.QUERY);
+            String searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
-            // Sanitize the search query
-            String sanitizedQuery = sanitizeQueryString(unSanitizedQuery);
+            // Check if search query is valid and appropriate
+            if (!isQueryStringValidAndAppropriate(searchQuery)) {
+                // TODO: Determine what to do with query
 
-            // Show the query on the device
-            mSearchQueryTextView.setText(sanitizedQuery);
+            } else {
+                // Show the query on the device
+                mSearchQueryTextView.setText(searchQuery);
 
-            // Store for later use
-            mSearchQuery = sanitizedQuery;
+                // Store for later use
+                mSearchQuery = searchQuery;
+            }
         }
     }
 
@@ -61,13 +64,13 @@ public class SearchableActivity extends AppCompatActivity {
     }
 
     /**
-     * Sanitize a search query string by filtering inappropriate queries.
+     * Check if specified search query string is valid and appropriate.
      *
      * @param unSanitizedQueryString
-     * @return sanitized query string that is safe to search for.
+     * @return true if query string is valid and appropriate, false otherwise
      */
-    private String sanitizeQueryString(@NonNull String unSanitizedQueryString) {
+    private boolean isQueryStringValidAndAppropriate(@NonNull String unSanitizedQueryString) {
         // TODO: Implement String sanitize and filter curse words, inappropriate search results, etc.
-        return unSanitizedQueryString;
+        return true;
     }
 }
