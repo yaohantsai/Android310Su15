@@ -3,11 +3,13 @@ package com.uw.android310.lesson2;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.uw.android310.core.StringUtil;
 
 
 public class SearchableActivity extends AppCompatActivity {
@@ -28,16 +30,16 @@ public class SearchableActivity extends AppCompatActivity {
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
             // Check if search query is valid and appropriate
-            if (!isQueryStringValidAndAppropriate(searchQuery)) {
-                // TODO: Determine what to do with query
-
-            } else {
-                // Show the query on the device
-                mSearchQueryTextView.setText(searchQuery);
-
-                // Store for later use
-                mSearchQuery = searchQuery;
+            if (StringUtil.isNullOrEmpty(searchQuery) || !StringUtil.Search.isQueryStringValidAndAppropriate(searchQuery)) {
+                Toast.makeText(this, "Please enter a valid search query.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // Show the query on the device
+            mSearchQueryTextView.setText(searchQuery);
+
+            // Store for later use
+            mSearchQuery = searchQuery;
         }
     }
 
@@ -61,16 +63,5 @@ public class SearchableActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Check if specified search query string is valid and appropriate.
-     *
-     * @param unSanitizedQueryString
-     * @return true if query string is valid and appropriate, false otherwise
-     */
-    private boolean isQueryStringValidAndAppropriate(@NonNull String unSanitizedQueryString) {
-        // TODO: Implement String sanitize and filter curse words, inappropriate search results, etc.
-        return true;
     }
 }

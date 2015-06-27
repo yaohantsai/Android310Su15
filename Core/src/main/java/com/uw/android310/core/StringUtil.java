@@ -19,14 +19,14 @@ public class StringUtil {
     public static class Search {
 
         /**
-         * Sanitize a search query string by filtering inappropriate queries.
+         * Check if specified search query string is valid and appropriate.
          *
          * @param unSanitizedQueryString
-         * @return sanitized query string that is safe to search for.
+         * @return true if query string is valid and appropriate, false otherwise
          */
-        public static String sanitizeQueryString(@NonNull String unSanitizedQueryString) {
+        public static boolean isQueryStringValidAndAppropriate(@NonNull String unSanitizedQueryString) {
             // TODO: Implement String sanitize and filter curse words, inappropriate search results, etc.
-            return unSanitizedQueryString;
+            return true;
         }
     }
 }
