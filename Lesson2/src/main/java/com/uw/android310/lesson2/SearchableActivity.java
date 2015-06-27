@@ -26,21 +26,13 @@ public class SearchableActivity extends AppCompatActivity {
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String searchQuery = intent.getStringExtra(SearchManager.QUERY);
+        handleIntent(intent);
+    }
 
-            // Check if search query is valid and appropriate
-            if (StringUtil.isNullOrEmpty(searchQuery) || !StringUtil.Search.isQueryStringValidAndAppropriate(searchQuery)) {
-                Toast.makeText(this, "Please enter a valid search query.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Show the query on the device
-            mSearchQueryTextView.setText(searchQuery);
-
-            // Store for later use
-            mSearchQuery = searchQuery;
-        }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
     }
 
     @Override
@@ -63,5 +55,23 @@ public class SearchableActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String searchQuery = intent.getStringExtra(SearchManager.QUERY);
+
+            // Check if search query is valid and appropriate
+            if (StringUtil.isNullOrEmpty(searchQuery) || !StringUtil.Search.isQueryStringValidAndAppropriate(searchQuery)) {
+                Toast.makeText(this, "Please enter a valid search query.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Show the query on the device
+            mSearchQueryTextView.setText(searchQuery);
+
+            // Store for later use
+            mSearchQuery = searchQuery;
+        }
     }
 }
