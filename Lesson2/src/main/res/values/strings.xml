@@ -7,4 +7,6 @@
     <string name="title_activity_searchable">SearchableActivity</string>
 
     <string name="action_search">Search</string>
+
+    <string name="facebook_app_id">856694771087402</string>
 </resources>
