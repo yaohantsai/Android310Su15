@@ -54,9 +54,6 @@ public class SearchableActivity extends AppCompatActivity {
             return true;
         }
 
-        // TODO: Update the options menu to initiate the search request if the SearchView menu item is collapsed.
-        // Your code here
-
         return super.onOptionsItemSelected(item);
     }
 
