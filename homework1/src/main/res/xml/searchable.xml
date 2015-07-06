@@ -12,7 +12,7 @@ What you will need to update:
 1. Declare the search authority with the provided content provider (DictionaryProvider).
 2. Declare the intent action.
 3. Declare the intent data.
-4. Include results in global search.
+4. Bonus - Include results in global search.
 -->
 
 <!-- The attributes below configure the Android search box appearance
