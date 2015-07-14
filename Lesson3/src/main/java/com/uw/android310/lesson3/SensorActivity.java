@@ -8,10 +8,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import java.util.List;
+import java.util.Map;
+
 
 public class SensorActivity extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mLight;
+    private Map<Sensor, List<SensorEvent>> mMap;
+    private static final Object mLock = new Object();
 
     @Override
     public final void onCreate(Bundle savedInstanceState) {
@@ -33,6 +38,11 @@ public class SensorActivity extends Activity implements SensorEventListener {
         // Many sensors return 3 values, one for each axis.
         float lux = event.values[0];
         // Do something with this sensor value.
+        synchronized(mLock) {
+            List<SensorEvent> newSensorEventList = mMap.get(event.sensor);
+            newSensorEventList.add(event);
+            mMap.put(event.sensor, newSensorEventList);
+        }
     }
 
     @Override
