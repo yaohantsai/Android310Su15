@@ -1,22 +1,19 @@
 package com.uw.android310.lesson4;
 
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
 
-public class USBActivity extends ActionBarActivity {
+public class USBActivity extends AppCompatActivity {
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
 
     @Override
@@ -31,7 +28,8 @@ public class USBActivity extends ActionBarActivity {
         // Enumerating devices
         UsbManager usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
         HashMap<String, UsbDevice> deviceList = usbManager.getDeviceList();
-        UsbDevice usbDeviceFromName = deviceList.get("deviceName");
+        Log.d("USBActivity", deviceList.toString());
+//        UsbDevice usbDeviceFromName = deviceList.get("deviceName");
 
         // Iterator
         Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
@@ -40,11 +38,11 @@ public class USBActivity extends ActionBarActivity {
             // Do something with the device
         }
 
-        // Request permission (explicit)
-        PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-        IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
-        registerReceiver(mUsbReceiver, filter);
-        usbManager.requestPermission(device, permissionIntent);
+//        // Request permission (explicit)
+//        PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+//        IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+//        registerReceiver(mUsbReceiver, filter);
+//        usbManager.requestPermission(device, permissionIntent);
     }
 
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
