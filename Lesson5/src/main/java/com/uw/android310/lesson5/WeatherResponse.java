@@ -1,14 +1,16 @@
 package com.uw.android310.lesson5;
 
 
-public class WeatherResponse {
-    private Weather main;
+import java.util.List;
 
-    public Weather getMain() {
-        return main;
+public class WeatherResponse {
+    private List<Weather> weather;
+
+    public List<Weather> getWeather() {
+        return weather;
     }
 
-    public void setMain(Weather main) {
-        this.main = main;
+    public void setWeather(List<Weather> weather) {
+        this.weather = weather;
     }
 }
