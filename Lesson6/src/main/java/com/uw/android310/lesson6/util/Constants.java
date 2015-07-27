@@ -13,4 +13,12 @@ public class Constants {
      */
     public static final String IMGUR_CLIENT_SECRET = "95e6032ec97388c05d80d88268f3f14af31b2134";
 
+    public static final boolean LOGGING = false;
+
+    /*
+      Client Auth
+     */
+    public static String getClientAuth() {
+        return "Client-ID " + IMGUR_CLIENT_ID;
+    }
 }
