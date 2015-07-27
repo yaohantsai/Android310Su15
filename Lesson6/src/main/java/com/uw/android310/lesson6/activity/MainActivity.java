@@ -3,6 +3,7 @@ package com.uw.android310.lesson6.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.uw.android310.lesson6.R;
+import com.uw.android310.lesson6.model.Image;
 import com.uw.android310.lesson6.model.ImageUpload;
+import com.uw.android310.lesson6.service.ImageUploadService;
 import com.uw.android310.lesson6.util.DocumentUtils;
 import com.uw.android310.lesson6.util.IntentUtils;
 
@@ -19,6 +22,9 @@ import java.io.File;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -91,5 +97,50 @@ public class MainActivity extends AppCompatActivity {
                 .fit()
                 .into(mUploadImage);
 
+    }
+
+    @OnClick(R.id.fab)
+    public void uploadImage() {
+        if (mChosenFile == null) {
+            return;
+        }
+
+        // Wrap the chosen image in an upload object (to be sent to API).
+        createUpload(mChosenFile);
+
+        // Initiate upload
+        new ImageUploadService(this).execute(mUpload, new UiCallback());
+    }
+
+    private void clearInput() {
+        mUploadTitle.setText("");
+        mUploadDesc.clearFocus();
+        mUploadDesc.setText("");
+        mUploadTitle.clearFocus();
+        mUploadImage.setImageResource(R.drawable.ic_photo_library_black);
+    }
+
+    private void createUpload(File image) {
+        mUpload = new ImageUpload();
+        mUpload.image = image;
+        mUpload.title = mUploadTitle.getText().toString();
+        mUpload.description = mUploadDesc.getText().toString();
+    }
+
+    private class UiCallback implements Callback<Image> {
+
+        @Override
+        public void success(Image imageResponse, Response response) {
+            // Reset the fields
+            clearInput();
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            //Assume we have no connection, since error is null
+            if (error == null) {
+                Snackbar.make(findViewById(R.id.rootView), "No internet connection", Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 }
