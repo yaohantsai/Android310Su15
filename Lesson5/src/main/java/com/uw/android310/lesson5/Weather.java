@@ -24,8 +24,8 @@ public class Weather {
     }
 
 =======
- * Created by DOu on 7/20/15.
- */
+// * Created by DOu on 7/20/15.
+// */
 public class Weather {
     private int id;
 
@@ -36,5 +36,5 @@ public class Weather {
     public void setId(int id) {
         this.id = id;
     }
->>>>>>> upstream/development
+//>>>>>>> upstream/development
 }
