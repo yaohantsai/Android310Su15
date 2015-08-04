@@ -8,9 +8,12 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements
@@ -23,6 +26,10 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleApiClient mGoogleApiClient;
 
     private Location mLastLocation;
+
+    // Create a LatLngBounds that includes Australia.
+    private LatLngBounds AUSTRALIA = new LatLngBounds(
+            new LatLng(-44, 113), new LatLng(-10, 154));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,23 @@ public class MapsActivity extends FragmentActivity implements
         if (mLastLocation != null) {
             Log.d(TAG, "Latitude: " + mLastLocation.getLatitude());
             Log.d(TAG, "Longitude: " + mLastLocation.getLongitude());
+
+            // Set the camera to the greatest possible zoom level that includes the
+            // bounds
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(AUSTRALIA, 0));
+//
+            // Center the map on the new location
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(AUSTRALIA.getCenter(), 10));
+
+            // Construct a CameraPosition focusing on Mountain View and animate the camera to that position.
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    // Sets the center of the map to last known location
+                    .target(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()))
+                    .zoom(17)                   // Sets the zoom
+                    .bearing(90)                // Sets the orientation of the camera to east
+                    .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                    .build();                   // Creates a CameraPosition from the builder
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
     }
 
